@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewBag.Title = "SendFoodToNeedy";
+}
+
+
+
+<div>
+    <br /><br />
+    <div class="card">
+
+        <div class="card-body" style="background-color:lightgray;">
+            <h5 class="card-title">Send Food to needy</h5>
+            <div class="container-fluid">
+                <div class="mt-2 text-start">
+
+                    <form class="row g-3">
+                        <div class="col-md-6">
+                            <label for="firstName" class="form-label">Select Food From Collection Center</label>
+                            <select id="food" class="form-select">
+                                @foreach (var item in ViewBag.food)
+                                {
+                                    <option value="@item.Id">@item.Id @item.FoodName</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="lastName" class="form-label">Select Needy Requests </label>
+                            <select id="request" class="form-select">
+                                @foreach (var item in ViewBag.request)
+                                {
+                                    <option value="@item.Id">@item.Id @item.FoodName</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <div class="mt-4">
+                                <a onclick="Sent()" class="btn btn-primary btn-lg">Save</a>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+@section scripts{
+    <script>
+
+        var Sent = function () {
+            var food = $("#food").val();
+            var request = $("#request").val();
+
+            if (food != "" && request != "") {
+                $.ajax({
+                    url: "/Home/Sent",
+                    type: "post",
+                    data: { RequestId: request, FoodId: food },
+                    success: function (res) {
+
+                        if (res == "send") {
+
+                            swal({
+                                title: "success", text: "Successfully Send!", type: "success"
+                            }).then(function () {
+                                location.reload();
+                            });
+                        }
+
+                        else {
+                            swal('error!', res, 'error');
+                        }
+                    }
+
+                });
+            }
+            else {
+                swal('error!', "Please fill all fields !", 'error');
+            }
+
+
+        }
+
+
+
+
+
+
+    </script>
+}
+
+

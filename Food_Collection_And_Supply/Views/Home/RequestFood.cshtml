@@ -1,0 +1,94 @@
+﻿@model Food_Collection_And_Supply.Database.FoodRequest
+@{
+    ViewBag.Title = "Request Food";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <br /><br />
+    <div class="card">
+
+        <div class="card-body" style="background-color:lightgray;">
+            <h5 class="card-title">Add Food</h5>
+            <div class="container-fluid">
+                <div class="mt-2 text-start">
+
+                    <form class="row g-3">
+                        <div class="col-md-6">
+                            <label for="firstName" class="form-label">Food</label>
+                            <input type="text"  class="form-control" id="name" value="@Model.FoodName">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="firstName" class="form-label">Family Member</label>
+                            <input type="number" class="form-control" id="fm" value="@Model.FamilyMember">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="firstName" class="form-label">Discription</label>
+                            <input type="text" class="form-control" id="dis" value="@Model.Discription">
+                        </div>
+
+
+                        <input type="hidden" value="@Model.Id" id="RequestId">
+                        <div class="col-12">
+                            <div class="mt-4">
+                                <a onclick="SaveFood()" class="btn btn-primary btn-lg">Save</a>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+@section scripts{
+    <script>
+
+        var SaveFood = function () {
+            var id = $("#RequestId").val();
+            var name = $("#name").val();
+            var food = $("#dis").val();
+            var fm = $("#fm").val();
+            if (id != "" && name != "" && dis != "" ) {
+                $.ajax({
+                    url: "/Home/RequestForFood",
+                    type: "post",
+                    data: { Name: name, Id: id, Discription: food ,FamilyMember:fm},
+                    success: function (res) {
+
+                        if (res == "true") {
+
+                            swal({
+                                title: "success", text: "Successfully Saved!", type: "success"
+                            }).then(function () {
+                                location.reload();
+                            });
+                        }
+
+                        else {
+                            swal('error!', res, 'error');
+                        }
+                    }
+
+                });
+            }
+            else {
+                swal('error!', "Please fill all fields !", 'error');
+            }
+
+
+        }
+
+
+
+
+
+
+    </script>
+}
+

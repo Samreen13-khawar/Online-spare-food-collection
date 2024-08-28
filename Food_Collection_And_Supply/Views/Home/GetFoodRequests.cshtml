@@ -1,0 +1,107 @@
+﻿@model IEnumerable<Food_Collection_And_Supply.Database.FoodRequest>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <br />
+    <br />
+    <div class="card">
+
+        <div class="card-body">
+
+            <table id="tbl" class="table" data-tablesaw-mode="swipe">
+                <thead>
+                    <tr>
+                        <th>Food Name</th>
+                        <th>Family Numbers</th>
+                        <th>Discriptions</th>
+                        <th>Collection Center</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>@item.FoodName</td>
+                            <td>@item.FamilyMember</td>
+                            <td>@item.Discription</td>
+                            <td>@item.City</td>
+                            <td>@item.Status</td>
+                            <td>
+                                @if (item.Status == "initiated")
+                                {
+                                    <a style="cursor:pointer;" class="btn btn-primary btn-sm" title="update" href="/Home/RequestFood?Id=@item.Id" )">Update</a>
+                                    <a style="cursor:pointer;" class="btn btn-success btn-sm" title="send" onclick="Send(@item.Id)">Send To Collection Center(@item.City)</a>
+                                }
+                                else
+                                {
+                            <b>@item.Status</b>
+
+                                }
+                            </td>
+                          
+
+
+
+
+                        </tr>
+
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+            $("#tbl").DataTable()
+
+        });
+
+        var Send = function (id) {
+            swal({
+                title: 'Are you sure?',
+                text: "You would not able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Send it!'
+            }).then(function () {
+
+
+                $.ajax({
+                    url: "/Home/SendFoodRequest",
+                    type: "POST",
+                    data: { id: id },
+                    success: function (res) {
+                        if (res == "send") {
+
+                            swal({
+                                title: "success", text: "Successfully Send!", type: "success"
+                            }).then(function () {
+                                location.reload();
+                            });
+                        }
+
+                        else {
+                            swal('send!', "Something Wrong !", 'error');
+                        }
+                    }
+                })
+
+            })
+
+        }
+
+    </script>
+}

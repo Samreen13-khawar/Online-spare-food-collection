@@ -1,0 +1,110 @@
+﻿@model Food_Collection_And_Supply.Database.DonatedFood
+@{
+    ViewBag.Title = "Add Food";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <br /><br />
+    <div class="card">
+
+        <div class="card-body" style="background-color:lightgray;">
+            <h5 class="card-title">Add Food</h5>
+            <div class="container-fluid">
+                <div class="mt-2 text-start">
+
+                    <form class="row g-3">
+                        <div class="col-md-6">
+                            <label for="firstName" class="form-label">Food</label>
+                            <input type="text" class="form-control" id="food" value="@Model.FoodName">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="lastName" class="form-label">Quantity</label>
+                            <input type="text" class="form-control" value="@Model.Quantity" id="qty">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="mfg" class="form-label">Manufacture Date</label>
+                            <input type="date" class="form-control" value="@Model.ManufacturedDate.ToString()" id="mfg">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="exp" class="form-label">Expiry Date</label>
+                            <input type="date" class="form-control" value="@Model.ExpiryDate.ToString()" id="exp">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="inputState" class="form-label">City</label>
+                            <select id="inputState" class="form-select">
+                                <option>Karachi</option>
+                                <option>Lahore</option>
+                                <option>Islamabad</option>
+                                <option>Multan</option>
+                                <option>Queta</option>
+                                <option>Peshawar</option>
+                            </select>
+                        </div>
+                        <input type="hidden"  value="@Model.Id" id="FoodId">
+                        <div class="col-12">
+                            <div class="mt-4">
+                                <a onclick="SaveFood()" class="btn btn-primary btn-lg">Save</a>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+@section scripts{
+    <script>
+
+        var SaveFood = function () {
+            var id = $("#FoodId").val();
+            var city = $("#inputState").val();
+            var food = $("#food").val();
+            var qty = $("#qty").val();
+            var mfg = $("#mfg").val();
+            var exp = $("#exp").val();
+            if (food != "" && qty != "" && mfg != "" && exp != "" && city != "") {
+                $.ajax({
+                    url: "/Home/SaveFood",
+                    type: "post",
+                    data: { FoodName: food, Quantity: qty, ManufacturedDate: mfg, ExpiryDate: exp, City: city,Id:id },
+                    success: function (res) {
+
+                        if (res == "true") {
+
+                            swal({
+                                title: "success", text: "Successfully Saved!", type: "success"
+                            }).then(function () {
+                                location.reload();
+                            });
+                        }
+
+                        else {
+                            swal('error!', res, 'error');
+                        }
+                    }
+
+                });
+            }
+            else {
+                swal('error!', "Please fill all fields !", 'error');
+            }
+
+
+        }
+
+
+
+
+
+
+    </script>
+}
+

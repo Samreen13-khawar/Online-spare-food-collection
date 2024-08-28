@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = "Add Donaiter";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <br /><br />
+    <div class="card">
+
+        <div class="card-body" style="background-color:lightgray;">
+            <h5 class="card-title">Add Needy</h5>
+            <div class="container-fluid">
+                <div class="mt-2 text-start">
+
+                    <form class="row g-3">
+                        <div class="col-md-6">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="firstName" placeholder="First name">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" placeholder="Last Name">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="address" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="address" placeholder="Address">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="inputState" class="form-label">City</label>
+                            <select id="inputState" class="form-select">
+                                <option selected>Choose...</option>
+                                <option>Karachi</option>
+                                <option>Lahore</option>
+                                <option>Islamabad</option>
+                                <option>Multan</option>
+                                <option>Queta</option>
+                                <option>Peshawar</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <input type="text" class="form-control" id="phone">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" placeholder="Email">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="Password">
+                        </div>
+
+
+                        <div class="col-12">
+                            <div class="mt-4">
+                                <a onclick="SaveUser()" class="btn btn-primary btn-lg">Save</a>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+</div>
+
+
+
+@section scripts{
+    <script>
+
+        var SaveUser = function () {
+
+
+            var firstname = $("#firstName").val();
+            var lastname = $("#lastName").val();
+            var address = $("#address").val();
+            var phoneno = $("#phone").val();
+            var city = $("#inputState").val();
+            var email = $("#email").val();
+            var type = "Needy";
+            var password = $("#password").val();
+            if (firstname != "" && lastname != "" && address != "" && phoneno != "" && city != "" && email != "" && type != "" && password != "") {
+                $.ajax({
+                    url: "/Auth/SaveUser",
+                    type: "post",
+                    data: { FirstName: firstname, LastName: lastname, Email: email, PhoneNo: phoneno, City: city, Address: address, Password: password, Type: type },
+                    success: function (res) {
+
+                        if (res == "true") {
+
+                            swal({
+                                title: "success", text: "Successfully Saved!", type: "success"
+                            }).then(function () {
+                                location.reload();
+                            });
+                        }
+
+                        else {
+                            swal('error!', res, 'error');
+                        }
+                    }
+
+                });
+            }
+            else {
+                swal('error!', "Please fill all fields !", 'error');
+            }
+
+
+        }
+
+
+
+
+
+
+    </script>
+}
+

@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FoodCollectionDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="DonatedFood">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DonatedBy" Type="int" Nullable="false" />
+    <Property Name="FoodName" Type="nvarchar" MaxLength="250" />
+    <Property Name="Quantity" Type="nvarchar" MaxLength="250" />
+    <Property Name="ManufacturedDate" Type="datetime" />
+    <Property Name="ExpiryDate" Type="date" />
+    <Property Name="Status" Type="nvarchar" MaxLength="250" />
+    <Property Name="City" Type="nvarchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="FoodRequests">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FoodName" Type="nvarchar" MaxLength="250" />
+    <Property Name="FamilyMember" Type="int" Nullable="false" />
+    <Property Name="Discription" Type="nvarchar" MaxLength="550" />
+    <Property Name="Status" Type="nvarchar" MaxLength="250" />
+    <Property Name="City" Type="nvarchar" MaxLength="250" />
+    <Property Name="FkUser" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="250" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="250" />
+    <Property Name="City" Type="nvarchar" MaxLength="250" />
+    <Property Name="Address" Type="nvarchar" MaxLength="250" />
+    <Property Name="PhoneNo" Type="nvarchar" MaxLength="250" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="PasswordHash" Type="nvarchar" MaxLength="500" />
+    <Property Name="Type" Type="nvarchar" MaxLength="250" />
+  </EntityType>
+  <Association Name="FK_DonatedFood_Users">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="DonatedFood" Type="Self.DonatedFood" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DonatedFood">
+        <PropertyRef Name="DonatedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FoodRequests_Users">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="FoodRequests" Type="Self.FoodRequests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="FoodRequests">
+        <PropertyRef Name="FkUser" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="FoodCollectionDBModelStoreContainer">
+    <EntitySet Name="DonatedFood" EntityType="Self.DonatedFood" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FoodRequests" EntityType="Self.FoodRequests" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_DonatedFood_Users" Association="Self.FK_DonatedFood_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="DonatedFood" EntitySet="DonatedFood" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FoodRequests_Users" Association="Self.FK_FoodRequests_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="FoodRequests" EntitySet="FoodRequests" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

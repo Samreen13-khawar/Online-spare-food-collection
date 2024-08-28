@@ -1,0 +1,37 @@
+/* Custom CSS */
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+}
+
+.navbar {
+    background-color:  burlywood !important;
+    color: white !important;
+}
+
+.sidebar {
+    height: 100%;
+    width: 100px !important;
+    position: fixed;
+    top: 55;
+    left: 0;
+    background-color: dimgrey !important;
+    padding-top: 20px;
+}
+
+    .sidebar a {
+        color: #fff;
+    }
+
+        .sidebar a:hover {
+            background-color: #2980b9;
+        }
+
+.main-content {
+    padding: 20px;
+}
+
+.main{
+    background-color:pink;
+}
+/* Add more custom styles as needed */

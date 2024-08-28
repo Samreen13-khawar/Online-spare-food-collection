@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="96e6c02915134556bc9cf02ec84b9693" Name="Diagram1">
+        <EntityTypeShape EntityType="FoodCollectionDBModel.DonatedFood" Width="1.5" PointX="3" PointY="1.125" />
+        <EntityTypeShape EntityType="FoodCollectionDBModel.FoodRequest" Width="1.5" PointX="3" PointY="4.625" />
+        <EntityTypeShape EntityType="FoodCollectionDBModel.User" Width="1.5" PointX="0.75" PointY="2.625" />
+        <AssociationConnector Association="FoodCollectionDBModel.FK_DonatedFood_Users" />
+        <AssociationConnector Association="FoodCollectionDBModel.FK_FoodRequests_Users" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
